@@ -30,11 +30,10 @@ namespace LuhnApplication
             int checkDigit = CardFunctions.get_check_num(num);
             int[] digits = num.ToString().Select(Convert.ToInt32).ToArray(); // Convert num into array of digits.
 
-            digits.Reverse();
-            for (int i = 1; i < digits.Length; i++)
+            for (int i = digits.Length - 2; i >= 0; i--)    // Run through digits in reverse order, skipping the ending digit.
             {
                 digits[i] -= 48;
-                if (i % 2 == 0)
+                if (i % 2 == 1)
                 {
                     digits[i] *= 2;
                     if (digits[i] > 9)
@@ -45,10 +44,9 @@ namespace LuhnApplication
 
             // Number does not pass the test if the calculated check digit does not match the original last digit.
             if ((sum * 9) % 10 != checkDigit)
-            {
                 return 1;
-            }
-            return 0;
+            else
+                return 0;
         }
     }
     class Program
