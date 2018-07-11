@@ -28,11 +28,12 @@ namespace LuhnApplication
         {
             int sum = 0;
             int checkDigit = CardFunctions.get_check_num(num);
-            int[] digits = num.ToString().Select(Convert.ToInt32).ToArray(); // Convert num into array of digits.
+            int[] digits = num.ToString().Select(Convert.ToInt32).ToArray();    // Convert num into array of digits.
+            int everyOtherNumber = 0;   // For tracking every other number.
 
             for (int i = digits.Length - 2; i >= 0; i--)    // Run through digits in reverse order, skipping the ending digit.
             {
-                digits[i] -= 48;
+                digits[i] -= 48;    // Convert char value to digit value.
                 if (i % 2 == 1)
                 {
                     digits[i] *= 2;
@@ -40,7 +41,9 @@ namespace LuhnApplication
                         digits[i] -= 9;
                 }
                 sum += digits[i];
+                everyOtherNumber++;
             }
+            digits[digits.Length - 1] -= 48;    // Convert check digit char value to digit value.
 
             // Number does not pass the test if the calculated check digit does not match the original last digit.
             if ((sum * 9) % 10 != checkDigit)
